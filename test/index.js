@@ -150,4 +150,28 @@ describe('sync', function() {
       });
     });
   });
+
+
+
+  describe('#sync', function() {
+    this.timeout(30000);
+
+    before(function() {
+      nodeQiniuSync.init({
+        AK: 'PLqCzvSJFXf7IvYq7RJUqP2pKmQTCQx4QonoaixM',
+        SK: '6omVezcNzUs4Klf07W4D8Y82MD4lTl5gSRxnhipV',
+        bucket: 'public'
+      });
+    });
+
+    it('should have AK!', function(done) {
+      nodeQiniuSync.sync({
+        prefix: 'sync-test/',
+        dir: __dirname+'/file-sync',
+        overwrite: true
+      });
+      setTimeout(done, 20000);
+    });
+  });
+
 });

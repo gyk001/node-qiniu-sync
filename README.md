@@ -1,4 +1,9 @@
-# node-qiniu-sync [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage Status](https://coveralls.io/repos/github/gyk001/node-qiniu-sync/badge.svg?branch=master)](https://coveralls.io/github/gyk001/node-qiniu-sync?branch=master)
+# node-qiniu-sync 
+[![NPM version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![Dependency Status][daviddm-image]][daviddm-url] 
+
 > 
 
 ## Installation
@@ -25,5 +30,5 @@ MIT © [郭玉昆]()
 [travis-url]: https://travis-ci.org/gyk001/node-qiniu-sync
 [daviddm-image]: https://david-dm.org/gyk001/node-qiniu-sync.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/gyk001/node-qiniu-sync
-[coveralls-image]: https://coveralls.io/repos/gyk001/node-qiniu-sync/badge.svg
-[coveralls-url]: https://coveralls.io/r/gyk001/node-qiniu-sync
+[coveralls-image]: https://coveralls.io/repos/github/gyk001/node-qiniu-sync/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/gyk001/node-qiniu-sync?branch=master

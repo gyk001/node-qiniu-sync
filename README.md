@@ -1,4 +1,4 @@
-# node-qiniu-sync [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+# node-qiniu-sync [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage Status](https://coveralls.io/repos/github/gyk001/node-qiniu-sync/badge.svg?branch=master)](https://coveralls.io/github/gyk001/node-qiniu-sync?branch=master)
 > 
 
 ## Installation

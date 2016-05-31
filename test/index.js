@@ -62,7 +62,7 @@ describe('sync', function() {
     });
   //
     it('should upload success', function(done) {
-      var file = '/Users/guoyukun/github/node-qiniu-sync/test/file-upload/test.png';
+      var file = __dirname+'/file-upload/test.png';
       var key = 'file-upload/test.png';
       nodeQiniuSync.uploadFile({
         file: file,

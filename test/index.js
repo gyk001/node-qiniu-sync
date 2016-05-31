@@ -32,6 +32,8 @@ describe('sync', function() {
   });
 
   describe('#upload', function() {
+    this.timeout(10000);
+
     before(function() {
       nodeQiniuSync.init({
         AK: 'PLqCzvSJFXf7IvYq7RJUqP2pKmQTCQx4QonoaixM',

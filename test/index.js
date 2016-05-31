@@ -2,6 +2,7 @@ import assert from 'assert';
 import msg from '../lib/msg';
 import nodeQiniuSync from '../lib';
 import chai from 'chai';
+const getEtag = require('../lib/qetag');
 
 const expect = chai.expect;
 var should = require('chai').should();
@@ -39,6 +40,16 @@ describe('sync', function() {
       });
     });
 
+    beforeEach(function(done) {
+      var key = 'file-upload/test.png';
+      nodeQiniuSync.removeFile({key, key})
+        .then(function (data) {
+          done();
+        },function (err) {
+          done();
+        });
+    });
+
     it('should upload fail when file not exist', function(done) {
       this.timeout(5000);
       var fileNotExist = 'not-exist/not-exist.png';
@@ -49,7 +60,7 @@ describe('sync', function() {
       }).then(function (data) {
         expect(data).to.not.have.property('hash');
         done();
-      }).catch(function(error) {
+      }, function(error) {
         should.exist(error);
         expect(error).to.have.property('code');
         expect(error).to.have.property('error');
@@ -58,20 +69,82 @@ describe('sync', function() {
       });
     });
 
-    it('should upload success', function(done) {
+    it('should upload success: remote file not exist ', function(done) {
+
       var file = __dirname+'/file-upload/test.png';
       var key = 'file-upload/test.png';
-      nodeQiniuSync.uploadFile({
-        file: file,
+      getEtag(file, function (fileHash) {
+        nodeQiniuSync.uploadFile({
+          file: file,
+          key: key
+        }).then(function (data) {
+          expect(data).to.have.property('key').to.equal(key);
+          expect(data).to.have.property('hash').to.equal(fileHash);
+          done();
+        }, function (error) {
+          assert.fail(error.code, null, error.error);
+          done();
+        });
+      });
+    });
+
+    it('should upload success: not overwrite remote file', function(done) {
+      // this.timeout(10000);
+      var file = __dirname+'/file-upload/b.png';
+      var key = 'file-upload/exist.jpg';
+
+      nodeQiniuSync.stat({
         key: key
-      }).then(function(data){
-        expect(data).to.have.property('hash');
-        expect(data).to.have.property('key');
-        expect(data.key).to.equal(key);
-        done();
-      }).catch(function(error) {
-        assert.fail(error.code, null, error.error);
-        done();
+      }).then(function(ret){
+        var remoteHash = ret.hash;
+
+        getEtag(file, function (fileHash) {
+
+          nodeQiniuSync.uploadFile({
+            file: file,
+            key: key,
+            overwrite: false
+          }).then(function(data){
+            expect(fileHash).to.not.equal(remoteHash);
+            expect(data).to.have.property('hash').to.equal(remoteHash);
+            expect(data).to.have.property('key').to.equal(key);
+            done();
+          },function(error) {
+            //assert.fail(error.code, null, error.error);
+            console.log(error);
+            expect(false).to.be.true;
+            done();
+          });
+        });
+
+
+      });
+
+
+
+
+    });
+
+    it('should upload success: overwrite remote file', function(done) {
+      this.timeout(10000);
+      var file = __dirname+'/file-upload/b.png';
+      var key = 'file-upload/test.png';
+      getEtag(file, function (fileHash) {
+        nodeQiniuSync.uploadFile({
+          file: file,
+          key: key,
+          overwrite: true
+        }).then(function (data) {
+          expect(data).to.have.property('hash').to.equal(fileHash);
+          expect(data).to.have.property('key').to.equal(key);
+          // expect(data.key).to.equal(key);
+          // expect(data.hash).to.equal(fileHash);
+          done();
+        }, function (error) {
+          //assert.fail(error.code, null, error.error);
+          expect(false).to.be.true;
+          done();
+        });
       });
     });
   });

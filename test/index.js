@@ -46,35 +46,31 @@ describe('sync', function() {
       nodeQiniuSync.uploadFile({
         file: fileNotExist,
         key: key
-      }).once('error', function(error) {
-        // TODO: error会触发两次,不知道原因,先用once监听
-        // console.log('yyyyyyyyyyyyyyyy', error);
+      }).then(function (data) {
+        expect(data).to.not.have.property('hash');
+        done();
+      }).catch(function(error) {
         should.exist(error);
         expect(error).to.have.property('code');
         expect(error).to.have.property('error');
-
+        expect(error.error).to.equal('文件不存在');
         done();
-      }).once('success', function(ret) {
-        expect(ret).to.not.have.property('hash');
-        done();
-        // console.log('xxxxxxxxxxxxxxxxx')
       });
     });
-  //
+
     it('should upload success', function(done) {
       var file = __dirname+'/file-upload/test.png';
       var key = 'file-upload/test.png';
       nodeQiniuSync.uploadFile({
         file: file,
         key: key
-      }).on('error', function(error) {
-        assert.fail(error.code, null, error.error);
+      }).then(function(data){
+        expect(data).to.have.property('hash');
+        expect(data).to.have.property('key');
+        expect(data.key).to.equal(key);
         done();
-      }).on('success', function(ret) {
-        //console.log(ret)
-        expect(ret).to.have.property('hash');
-        expect(ret).to.have.property('key');
-        expect(ret.key).to.equal(key);
+      }).catch(function(error) {
+        assert.fail(error.code, null, error.error);
         done();
       });
     });

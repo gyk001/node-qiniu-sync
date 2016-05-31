@@ -1,3 +1,4 @@
+/* eslint-disable */
 var path = require('path');
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
@@ -10,16 +11,17 @@ var coveralls = require('gulp-coveralls');
 var babel = require('gulp-babel');
 var del = require('del');
 var isparta = require('isparta');
+var friendlyFormatter = require("eslint-friendly-formatter");
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
 require('babel-core/register');
 
 gulp.task('static', function () {
-  return gulp.src('**/*.js')
+  return gulp.src('lib/**.js')
     .pipe(excludeGitignore())
     .pipe(eslint())
-    .pipe(eslint.format())
+    .pipe(eslint.format(friendlyFormatter))
     .pipe(eslint.failAfterError());
 });
 

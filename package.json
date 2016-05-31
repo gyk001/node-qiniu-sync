@@ -22,6 +22,7 @@
     "del": "^2.0.2",
     "eslint": "^2.1.0",
     "eslint-config-xo-space": "^0.13.0",
+    "eslint-friendly-formatter": "^2.0.5",
     "eslint-plugin-babel": "^3.1.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",

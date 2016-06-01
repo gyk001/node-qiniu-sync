@@ -18,7 +18,7 @@ var friendlyFormatter = require("eslint-friendly-formatter");
 require('babel-core/register');
 
 gulp.task('static', function () {
-  return gulp.src('lib/**.js')
+  return gulp.src(['lib/**.js', '!lib/sync.js'])
     .pipe(excludeGitignore())
     .pipe(eslint())
     .pipe(eslint.format(friendlyFormatter))
@@ -30,7 +30,7 @@ gulp.task('nsp', function (cb) {
 });
 
 gulp.task('pre-test', function () {
-  return gulp.src('lib/**/*.js')
+  return gulp.src(['lib/**/*.js','!lib/sync.js'])
     .pipe(excludeGitignore())
     .pipe(istanbul({
       includeUntested: true,
@@ -42,7 +42,7 @@ gulp.task('pre-test', function () {
 gulp.task('test', ['pre-test'], function (cb) {
   var mochaErr;
 
-  gulp.src('test/**/*.js')
+  gulp.src(['test/**/*.js','!lib/sync.js'])
     .pipe(plumber())
     .pipe(mocha({reporter: 'spec'}))
     .on('error', function (err) {
@@ -68,7 +68,7 @@ gulp.task('coveralls', ['test'], function () {
 });
 
 gulp.task('babel', ['clean'], function () {
-  return gulp.src('lib/**/*.js')
+  return gulp.src(['lib/**/*.js','!lib/sync.js'])
     .pipe(babel())
     .pipe(gulp.dest('dist'));
 });

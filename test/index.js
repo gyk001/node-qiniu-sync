@@ -1,14 +1,15 @@
-import assert from 'assert';
-import msg from '../lib/msg';
-import nodeQiniuSync from '../lib';
-import chai from 'chai';
+const assert= require('assert');
+const msg = require('../lib/msg');
+const nodeQiniuSync =require('../lib');
+const chai =require('chai');
 const getEtag = require('../lib/qetag');
 
 const expect = chai.expect;
 var should = require('chai').should();
 
-describe('sync', function() {
-  describe('#config', function() {
+describe('qiniu', function() {
+
+  context('#config', function() {
     it('should have AK!', function() {
       assert.throws(function() {
         nodeQiniuSync.init({})
@@ -31,7 +32,7 @@ describe('sync', function() {
     });
   });
 
-  describe('#upload', function() {
+  context('#upload', function() {
     this.timeout(10000);
 
     before(function() {
@@ -153,7 +154,7 @@ describe('sync', function() {
 
 
 
-  describe('#sync', function() {
+  context('#sync', function() {
     this.timeout(30000);
 
     before(function() {
@@ -164,7 +165,7 @@ describe('sync', function() {
       });
     });
 
-    it('should have AK!', function(done) {
+    it('overwrite!', function(done) {
       nodeQiniuSync.sync({
         prefix: 'sync-test/',
         dir: __dirname+'/file-sync',
@@ -173,5 +174,52 @@ describe('sync', function() {
       setTimeout(done, 20000);
     });
   });
+
+
+
+});
+
+describe.only('#scan', function () {
+  it('one level: relative ', function () {
+    return nodeQiniuSync.scan({dir:'test/file-sync'}).then(function (files) {
+      //console.log(files);
+      expect(files).to.be.a('array');
+      ['a.png','b.jpg','c.rtf','d.rtf'].forEach(function (file) {
+        expect(files).to.include(file);
+      });
+    });
+  });
+
+  it('one level: absolute ', function () {
+    return nodeQiniuSync.scan({dir: __dirname+'/file-sync'}).then(function (files) {
+      //console.log(files);
+      expect(files).to.be.a('array');
+      ['a.png','b.jpg','c.rtf','d.rtf'].forEach(function (file) {
+        expect(files).to.include(file);
+      });
+    });
+  });
+
+  it('two level: relative', function () {
+    return nodeQiniuSync.scan({dir: 'test/file-sync'}).then(function (files) {
+      //console.log(files);
+      expect(files).to.be.a('array');
+      ['a.png','b.jpg','c.rtf','d.rtf','level2/a.png'].forEach(function (file) {
+        expect(files).to.include(file);
+      });
+    });
+  });
+
+  it('two level: absolute', function () {
+    return nodeQiniuSync.scan({dir: __dirname+'/file-sync'}).then(function (files) {
+      //console.log(files);
+      expect(files).to.be.a('array');
+      ['a.png','b.jpg','c.rtf','d.rtf','level2/a.png'].forEach(function (file) {
+        expect(files).to.include(file);
+      });
+    });
+  });
+
+
 
 });

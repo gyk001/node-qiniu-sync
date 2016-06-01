@@ -12,6 +12,7 @@ var babel = require('gulp-babel');
 var del = require('del');
 var isparta = require('isparta');
 var friendlyFormatter = require("eslint-friendly-formatter");
+var jsdoc = require('gulp-jsdoc3');
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
@@ -75,6 +76,11 @@ gulp.task('babel', ['clean'], function () {
 
 gulp.task('clean', function () {
   return del('dist');
+});
+
+gulp.task('doc', function (cb) {
+  gulp.src(['README.md', 'lib/**/*.js','!lib/sync.js'], {read: false})
+    .pipe(jsdoc(cb));
 });
 
 gulp.task('prepublish', ['nsp', 'babel']);

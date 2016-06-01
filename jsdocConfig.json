@@ -1,0 +1,34 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc","closure"]
+  },
+  "source": {
+    "include": ["lib", "package.json", "README.md"],
+    "includePattern": ".js$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "opts": {
+    "destination": "./docs/gen",
+    "encoding": "utf8",
+    "private": true,
+    "recurse": true,
+    "template": "./node_modules/jaguarjs-jsdoc"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "linenums": true,
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": true
+    },
+    "path": "ink-docstrap",
+    "theme": "cerulean",
+    "navType": "vertical",
+    "linenums": true,
+    "dateFormat": "MMMM Do YYYY, h:mm:ss a"
+  }
+}
